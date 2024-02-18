@@ -12,23 +12,26 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class EventPlayerFall {
 	@SubscribeEvent
 	public static void onDamage(LivingFallEvent event) {
-		if (!(event.getEntity() instanceof ServerPlayerEntity)) return;
+		if (!(event.getEntity() instanceof ServerPlayerEntity))
+			return;
 		ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
 
 		Parkourability parkourability = Parkourability.get(player);
-		if (parkourability == null) return;
+		if (parkourability == null)
+			return;
 
 		if (parkourability.get(BreakfallReady.class).isDoing()
 				&& (parkourability.getClientInfo().getPossibilityOf(Tap.class)
-				|| parkourability.getClientInfo().getPossibilityOf(Roll.class))
-		) {
+						|| parkourability.getClientInfo().getPossibilityOf(Roll.class))
+				&& (ParCoolConfig.Client.Booleans.EnableJustTimeEffectOfBreakfall.get()
+						&& parkourability.get(BreakfallReady.class).getDoingTick() < 5)) {
 			boolean justTime = parkourability.get(BreakfallReady.class).getDoingTick() < 5;
 			float distance = event.getDistance();
 			if (distance > 2) StartBreakfallMessage.send(player, justTime);
-			if (distance < 6 || (justTime && distance < 8)) {
+			if (distance < 6) {
 				event.setCanceled(true);
 			} else {
-				event.setDamageMultiplier(event.getDamageMultiplier() * (justTime ? 0.4f : 0.6f));
+				event.setDamageMultiplier(event.getDamageMultiplier() * 0.6f);
 			}
 		}
 	}

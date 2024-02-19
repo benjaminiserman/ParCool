@@ -1,5 +1,4 @@
 package com.alrex.parcool.common.action.impl;
-
 import com.alrex.parcool.client.input.KeyBindings;
 import com.alrex.parcool.common.action.Action;
 import com.alrex.parcool.common.action.StaminaConsumeTiming;

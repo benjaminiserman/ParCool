@@ -5,6 +5,10 @@ import com.alrex.parcool.api.Effects;
 import com.alrex.parcool.common.capability.IStamina;
 import com.alrex.parcool.common.capability.Parkourability;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import com.alrex.parcool.common.potion.Effects;
+import com.alrex.parcool.config.ParCoolConfig;
+
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 
 public class Stamina implements IStamina {
@@ -49,6 +53,15 @@ public class Stamina implements IStamina {
 				|| parkourability.getActionInfo().isStaminaInfinite(player.isSpectator() || player.isCreative())
                 || player.hasEffect(Effects.INEXHAUSTIBLE.get())
 		) return;
+<<<<<<< HEAD:src/main/java/com/alrex/parcool/common/capability/stamina/Stamina.java
+=======
+		if (ParCoolConfig.Client.Booleans.UseHungerBarInstead.get()) {
+			//player.displayClientMessage(new TextComponent("Debug! " + Float.toString(value / 1000f) + " " + Boolean.toString(player.getAbilities().invulnerable) + " " + Boolean.toString(player.level.isClientSide)), true);
+			//player.causeFoodExhaustion(value / 1000f);
+			player.getFoodData().addExhaustion(value / 1000f);
+			return;
+		}
+>>>>>>> f4ad4c4 (hacky fix for hunger stamina issue):src/main/java/com/alrex/parcool/common/capability/impl/Stamina.java
 		recoverCoolTime = 30;
 		set(stamina - value);
 		if (stamina == 0) {

@@ -17,10 +17,7 @@ import java.util.Random;
 public class BreakfallReady extends Action {
 	public void startBreakfall(Player player, Parkourability parkourability, IStamina stamina, boolean justTimed) {
 		setDoing(false);
-		if (ParCoolConfig.Client.Booleans.EnableActionSounds.get()) {
-			player.playSound(SoundEvents.PLAYER_ATTACK_STRONG, 1f, 0.7f);
-		}
-		
+		boolean playSound = ParCoolConfig.Client.Booleans.EnableActionSounds.get();
 		var onlyJustTime = ParCoolConfig.Client.Booleans.EnableJustTimeEffectOfBreakfall.get();
 				
 		if (((KeyBindings.getKeyForward().isDown() 
@@ -32,11 +29,13 @@ public class BreakfallReady extends Action {
 		) {
 			stamina.consume((int) ((justTimed && !onlyJustTime ? 0.25f : 1) * parkourability.getActionInfo().getStaminaConsumptionOf(Roll.class)));
 			if (justTimed || !onlyJustTime) {
+				if (playSound) player.playSound(SoundEvents.ROLL.get(), 1, 1);
 				parkourability.get(Roll.class).startRoll(player);			
 			}
 		} else {
 			stamina.consume((int) ((justTimed && !onlyJustTime ? 0.25f : 1) * parkourability.getActionInfo().getStaminaConsumptionOf(Tap.class)));
 			if (justTimed || !onlyJustTime) {
+				if (playSound) player.playSound(SoundEvents.SAFETY_TAP.get(), 1, 1);
 				parkourability.get(Tap.class).startTap(player);
 			}
 		}
